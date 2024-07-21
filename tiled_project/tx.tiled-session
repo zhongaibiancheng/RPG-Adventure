@@ -16,6 +16,9 @@
                 "y": 246
             }
         },
+        "/Users/lichenggang/workspace/games/RPG-Adventure/public/assets/tilemaps/tx/level1.tmx#Shadow_plants": {
+            "scaleInEditor": 1
+        },
         "/Users/lichenggang/workspace/games/RPG-Adventure/public/assets/tilemaps/tx/level1.tmx#tx_grass": {
             "scaleInDock": 1
         }
