@@ -9,22 +9,42 @@
     "file.lastUsedOpenFilter": "All Files (*)",
     "fileStates": {
         "/Users/lichenggang/workspace/games/RPG-Adventure/public/assets/tilemaps/tx/level1.tmx": {
-            "scale": 0.5,
-            "selectedLayer": 0,
+            "scale": 0.75,
+            "selectedLayer": 5,
             "viewCenter": {
-                "x": 427,
-                "y": 246
+                "x": 252.66666666666663,
+                "y": 367.99999999999994
             }
         },
         "/Users/lichenggang/workspace/games/RPG-Adventure/public/assets/tilemaps/tx/level1.tmx#Shadow_plants": {
+            "scaleInDock": 1,
             "scaleInEditor": 1
         },
         "/Users/lichenggang/workspace/games/RPG-Adventure/public/assets/tilemaps/tx/level1.tmx#tx_grass": {
             "scaleInDock": 1
+        },
+        "/Users/lichenggang/workspace/games/RPG-Adventure/public/assets/tilemaps/tx/level1.tmx#tx_plant": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "/Users/lichenggang/workspace/games/RPG-Adventure/public/assets/tilemaps/tx/level1.tmx#tx_props": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "/Users/lichenggang/workspace/games/RPG-Adventure/public/assets/tilemaps/tx/level1.tmx#tx_stone_ground": {
+            "scaleInDock": 1
+        },
+        "/Users/lichenggang/workspace/games/RPG-Adventure/public/assets/tilemaps/tx/level1.tmx#tx_struct": {
+            "scaleInDock": 1
+        },
+        "/Users/lichenggang/workspace/games/RPG-Adventure/public/assets/tilemaps/tx/level1.tmx#tx_wall": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
         }
     },
     "last.exportedFilePath": "/Users/lichenggang/workspace/games/RPG-Adventure/public/assets/tilemaps/tx",
     "last.imagePath": "/Users/lichenggang/workspace/games/RPG-Adventure/public/assets/tileset/tx",
+    "lastUsedTilesetExportFilter": "All Files (*)",
     "map.height": 20,
     "map.lastUsedExportFilter": "JSON map files (*.tmj *.json)",
     "map.lastUsedFormat": "tmx",
@@ -35,6 +55,7 @@
         "/Users/lichenggang/workspace/games/RPG-Adventure/public/assets/tilemaps/tx/level1.tmx"
     ],
     "project": "tx.tiled-project",
+    "property.type": "bool",
     "recentFiles": [
         "/Users/lichenggang/workspace/games/RPG-Adventure/public/assets/tilemaps/tx/level1.tmx"
     ],

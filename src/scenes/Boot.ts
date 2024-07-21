@@ -3,7 +3,8 @@ import { Scene } from 'phaser';
 export class Boot extends Scene {
     cursors: any;
     player: Phaser.GameObjects.Sprite;
-
+    _player: any;
+    camera: Phaser.Cameras.Scene2D.Camera;
     constructor() {
         super('Boot');
     }
@@ -13,23 +14,33 @@ export class Boot extends Scene {
     }
 
     create() {
+        this.camera = this.cameras.main;
+        this.camera.setZoom(2);
+
         const map = this.make.tilemap({ key: 'map' });
-        const tileset = map.addTilesetImage('tx_grass', 'tiles');
+        const platform_layer = map.addTilesetImage('tx_grass', 'tiles');
 
         //platform
-        if (tileset) {
+        if (platform_layer) {
             // 创建静态图层
-            const platforms = map.createLayer('Platforms', tileset, 0, 0);
+            const platforms = map.createLayer('Platforms', platform_layer, 0, 0);
             if (platforms) {
                 // 设置碰撞属性
                 platforms.setCollisionByProperty({ collides: true });
                 this.matter.world.convertTilemapLayer(platforms, { label: 'floor' });
-            } else {
-                console.log("platforms is null")
-            }
 
-        } else {
-            console.log("tileset is null")
+                platforms.setDepth(1);
+                // 创建静态图层2
+                const platforms2 = map.createLayer('Platforms2', platform_layer, 0, 0);
+                if (platforms2) {
+                    // 设置碰撞属性
+                    platforms2.setCollisionByProperty({ collides: true });
+                    this.matter.world.convertTilemapLayer(platforms2, { label: 'floor2' });
+                    platforms2.setDepth(10);
+                } else {
+                    console.log("platforms is null")
+                }
+            }
         }
 
         const tileset_wall = map.addTilesetImage('tx_wall', 'tiles_wall');
@@ -41,6 +52,8 @@ export class Boot extends Scene {
                 // 设置碰撞属性
                 walls.setCollisionByProperty({ collides: true });
                 this.matter.world.convertTilemapLayer(walls, { label: 'walls' });
+                walls.setDepth(20);
+
             } else {
                 console.log("walls is null")
             }
@@ -55,6 +68,8 @@ export class Boot extends Scene {
                 // 设置碰撞属性
                 props.setCollisionByProperty({ collides: true });
                 this.matter.world.convertTilemapLayer(props, { label: 'props' });
+                props.setDepth(30);
+
             } else {
                 console.log("props is null")
             }
@@ -69,6 +84,7 @@ export class Boot extends Scene {
                 // 设置碰撞属性
                 shadows.setCollisionByProperty({ collides: true });
                 this.matter.world.convertTilemapLayer(shadows, { label: 'shadows' });
+                shadows.setDepth(40);
             } else {
                 console.log("shadows is null")
             }
@@ -83,6 +99,7 @@ export class Boot extends Scene {
                 // 设置碰撞属性
                 structs.setCollisionByProperty({ collides: true });
                 this.matter.world.convertTilemapLayer(structs, { label: 'structs' });
+                structs.setDepth(50);
             } else {
                 console.log("structs is null")
             }
@@ -96,6 +113,7 @@ export class Boot extends Scene {
                 // 设置碰撞属性
                 trees.setCollisionByProperty({ collides: true });
                 this.matter.world.convertTilemapLayer(trees, { label: 'trees' });
+                trees.setDepth(60);
             } else {
                 console.log("trees is null")
             }
@@ -137,23 +155,50 @@ export class Boot extends Scene {
             repeat: -1
         });
         // 创建角色精灵并播放动画
-        const character = this.add.sprite(0, 0, 'mySpritesheet').play('walk');
+        const character = this.add.sprite(0, 0, 'mySpritesheet');
 
         character.setOrigin(0.5, 1);
         // 创建一个容器，将阴影和角色精灵添加到容器中
-        const container = this.add.container(100, 100, [shadow, character]);
+        this._player = this.add.container(100, 100, [shadow, character]);
 
-        container.setPosition(playerStart.x, playerStart.y);
-        // container.setDepth(100);
+        this._player.setDepth(9);
         // 调整阴影和角色精灵的位置
         shadow.setPosition(10, -8); // 根据需要调整阴影的位置
         character.setPosition(0, 32);
+
+        // container.setOrigin(0.5, 0.6);
+        // const matterContainer = this.matter.add.gameObject(container, {
+        //     shape: {
+        //         type: 'rectangle',
+        //         width: 25,
+        //         height: 45
+        //     }
+        // });
+        // const { Bodies, Body } = Phaser.Physics.Matter.Matter;
+        // const containerBody = Bodies.rectangle(0, 0, 32, 45, { isSensor: false });
+        // this.matter.add.gameObject(container, containerBody);
+        // Body.setCentre(containerBody, { x: 0.5, y: 0.5 }, true);
+
+        // 使用 Matter.js 物理引擎创建一个矩形物理体，并附加到容器中
+        // 使用 Matter.js 物理引擎创建一个矩形物理体，并附加到容器中
+        const Bodies = this.matter.bodies;
+        const Body = this.matter.body;
+
+        const containerBody = Bodies.rectangle(0, 0, 20, 45, { isSensor: false });
+
+        Body.setCentre(containerBody, { x: 0.5, y: 0.5 }, true);
+
+        this.matter.add.gameObject(this._player);
+        this._player.setExistingBody(containerBody);
+
+        this.camera.startFollow(this._player);
 
         //添加果冻晃动效果
         this._createJellyEffect(character);
         this.player = character;
 
         this._createCursorKeys();
+        this._player.setPosition(playerStart.x, playerStart.y);
 
     }
 
@@ -188,6 +233,7 @@ export class Boot extends Scene {
             if (this.cursors.left.isDown) {
                 playerVelocity.x = -speed;
                 this.player.play("left");
+                this.player.setFlipX(false);
 
             } else if (this.cursors.right.isDown) {
                 playerVelocity.x = speed;
@@ -203,8 +249,8 @@ export class Boot extends Scene {
             }
 
             // 更新玩家位置
-            this.player.x += playerVelocity.x * this.game.loop.delta / 1000;
-            this.player.y += playerVelocity.y * this.game.loop.delta / 1000;
+            this._player.x += playerVelocity.x * this.game.loop.delta / 1000;
+            this._player.y += playerVelocity.y * this.game.loop.delta / 1000;
         }
 
     }

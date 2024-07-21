@@ -14,14 +14,14 @@ const config: Types.Core.GameConfig = {
     height: 768,
     parent: 'game-container',
     backgroundColor: '#028af8',
-    physics:{
-        default:'matter',
-        matter:{
-            gravity:{
-                x:0,
-                y:0.8
+    physics: {
+        default: 'matter',
+        matter: {
+            gravity: {
+                x: 0,
+                y: 0
             },
-            debug:true
+            debug: true
         }
     },
     scale: {
@@ -29,7 +29,7 @@ const config: Types.Core.GameConfig = {
         autoCenter: Phaser.Scale.CENTER_BOTH
     },
     scene: [
-    Preloader,
+        Preloader,
         Boot,
         MainMenu,
         MainGame,
