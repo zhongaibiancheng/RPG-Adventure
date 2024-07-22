@@ -43,6 +43,16 @@ export class Boot extends Scene {
             }
         }
 
+        const Platfrom_grass_layer = map.addTilesetImage('tx_plant', 'tiles_trees');
+
+        //platform_grass
+        if (Platfrom_grass_layer) {
+            // 创建静态图层
+            const platforms_grass = map.createLayer('Platfrom_grass', Platfrom_grass_layer, 0, 0);
+            if (platforms_grass) {
+                platforms_grass.setDepth(5);
+            }
+        }
         const tileset_wall = map.addTilesetImage('tx_wall', 'tiles_wall');
 
         //wall
@@ -225,7 +235,7 @@ export class Boot extends Scene {
     }
     update() {
         // 重置玩家速度
-        let speed = 32;
+        let speed = 50;
         let playerVelocity = { x: 0, y: 0 };
 
         if (this.cursors) {
