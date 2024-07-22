@@ -19,6 +19,9 @@ export class Boot extends Scene {
 
         const map = this.make.tilemap({ key: 'map' });
         const platform_layer = map.addTilesetImage('tx_grass', 'tiles');
+        const tileset_structs = map.addTilesetImage('tx_struct', 'tiles_structs');
+        const tileset_props = map.addTilesetImage('tx_props', 'tiles_props');
+
 
         //platform
         if (platform_layer) {
@@ -31,15 +34,18 @@ export class Boot extends Scene {
 
                 platforms.setDepth(1);
                 // 创建静态图层2
-                const platforms2 = map.createLayer('Platforms2', platform_layer, 0, 0);
-                if (platforms2) {
-                    // 设置碰撞属性
-                    platforms2.setCollisionByProperty({ collides: true });
-                    this.matter.world.convertTilemapLayer(platforms2, { label: 'floor2' });
-                    platforms2.setDepth(10);
-                } else {
-                    console.log("platforms is null")
+                if (tileset_structs) {
+                    const platforms2 = map.createLayer('Platforms2', [platform_layer, tileset_structs], 0, 0);
+                    if (platforms2) {
+                        // 设置碰撞属性
+                        platforms2.setCollisionByProperty({ collides: true });
+                        this.matter.world.convertTilemapLayer(platforms2, { label: 'floor2' });
+                        platforms2.setDepth(10);
+                    } else {
+                        console.log("platforms is null")
+                    }
                 }
+
             }
         }
 
@@ -69,8 +75,6 @@ export class Boot extends Scene {
             }
         }
 
-        const tileset_props = map.addTilesetImage('tx_props', 'tiles_props');
-
         //props
         if (tileset_props) {
             const props = map.createLayer('Props', tileset_props, 0, 0);
@@ -79,6 +83,15 @@ export class Boot extends Scene {
                 props.setCollisionByProperty({ collides: true });
                 this.matter.world.convertTilemapLayer(props, { label: 'props' });
                 props.setDepth(30);
+
+                const platform_props_layer = map.createLayer('Platform_props', tileset_props, 0, 0);
+
+                if (platform_props_layer) {
+                    // 设置碰撞属性
+                    platform_props_layer.setCollisionByProperty({ collides: true });
+                    this.matter.world.convertTilemapLayer(platform_props_layer, { label: 'props' });
+                    platform_props_layer.setDepth(8);
+                }
 
             } else {
                 console.log("props is null")
@@ -100,8 +113,6 @@ export class Boot extends Scene {
             }
         }
 
-        const tileset_structs = map.addTilesetImage('tx_struct', 'tiles_structs');
-
         //structs
         if (tileset_structs) {
             const structs = map.createLayer('Structs', tileset_structs, 0, 0);
@@ -109,7 +120,7 @@ export class Boot extends Scene {
                 // 设置碰撞属性
                 structs.setCollisionByProperty({ collides: true });
                 this.matter.world.convertTilemapLayer(structs, { label: 'structs' });
-                structs.setDepth(50);
+                structs.setDepth(6);
             } else {
                 console.log("structs is null")
             }

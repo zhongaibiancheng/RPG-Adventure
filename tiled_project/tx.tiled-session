@@ -35,7 +35,8 @@
             "scaleInDock": 1
         },
         "/Users/lichenggang/workspace/games/RPG-Adventure/public/assets/tilemaps/tx/level1.tmx#tx_struct": {
-            "scaleInDock": 1
+            "scaleInDock": 1,
+            "scaleInEditor": 1
         },
         "/Users/lichenggang/workspace/games/RPG-Adventure/public/assets/tilemaps/tx/level1.tmx#tx_wall": {
             "scaleInDock": 1,
